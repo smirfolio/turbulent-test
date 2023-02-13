@@ -47,10 +47,12 @@ After testing this patent it seems that the mongoDb is crashing any way, it does
 seems that it's a memory overflow issue, that's said, the service persistence need to be more optimised, my first attempt
 is to delay more the persistence operation to 5s instead of 2s, I'm pretty sure that the amount of data is not the issue, 
 but the 2 seconds saving operation is may be too much.
+
 Also, a usage of a message queue will be a game changing in our case
 The service that is queried by the ReactJS FE to display the score board, shouldn't be implemented in the cache service,
 for practical reason for this test, (to not implement another service that could take me more time..), but it's also 
-something that we could optimize in independent service
+something that we could optimize in independent service.
+
 On the contrary, the fact that MongoDB is down results in data loss, as the routine that saves data, purges the fetched data to persist in the Redis index. To prevent this, an enhancement that could be made is to ensure that flushing the Redis index is only performed if the MongoDB saving process has been successful.
 
 ## Usage
