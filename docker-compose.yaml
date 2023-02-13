@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+    api:
+        build:
+            context: .
+            dockerfile: docker_artifacts/redis/Dockerfile
+        restart: always
+        volumes:
+            - ./updateScoreRedis:/updateScoreRedis
+        ports:
+            - "5000:5000"
+        depends_on:
+            - cache
+        networks:
+            scoreApi:
+                ipv4_address: 10.5.0.4
+    api-persistence:
+        build:
+            context: .
+            dockerfile: docker_artifacts/persistence/Dockerfile
+        restart: always
+        volumes:
+            - ./updateScorePersistence:/updateScorePersistence
+        depends_on:
+            - cache
+        networks:
+            scoreApi:
+                ipv4_address: 10.5.0.5
+    cache:
+        image: redis:6.2-alpine
+        restart: always
+        ports:
+            - "6379:6379"
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+        command: redis-server --save 20 1 --loglevel warning
+        volumes:
+            - ./cache:/data
+        networks:
+            scoreApi:
+                ipv4_address: 10.5.0.6
+    mongo:
+        image: mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./mongodb:/data/db
+        networks:
+            scoreApi:
+                ipv4_address: 10.5.0.7
+networks:
+    scoreApi:
+        external:
+            name: scoreApi
