@@ -53,7 +53,7 @@ The service that is queried by the ReactJS FE to display the score board, should
 for practical reason for this test, (to not implement another service that could take me more time..), but it's also 
 something that we could optimize in independent service.
 
-On the contrary, the fact that MongoDB is down results in data loss, as the routine that saves data, purges the fetched data to persist in the Redis index. To prevent this, an enhancement that could be made is to ensure that flushing the Redis index is only performed if the MongoDB saving process has been successful.
+On addition, the fact that MongoDB is down results in data loss, as the routine that saves data, purges the fetched data to persist in the Redis index. To prevent this, an enhancement that could be made is to ensure that flushing the Redis index is only performed if the MongoDB saving process has been successful.
 
 ## Usage
 To make it work just need to perform this command : `make deploy` all services are Dockerized and a docker network will be 
